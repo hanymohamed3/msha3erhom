@@ -1,0 +1,85 @@
+/* alert.css */
+.alert {
+    padding: 20px 40px;
+    min-width: 420px;
+    position: absolute;
+    right: 0;
+    top: 10px;
+    border-radius: 4px;
+    overflow: hidden;
+    opacity: 0;
+    pointer-events: none;
+    z-index: 100000000000; /* Set a higher z-index to ensure it appears above the navbar */
+}
+
+.error {
+    background: #f8d7da; /* Red color for error */
+    border-left: 8px solid #dc3545; /* Red border color */
+}
+
+.success {
+    background: #d4edda; /* Green color for success */
+    border-left: 8px solid #28a745; /* Green border color */
+}
+
+.alert.showAlert {
+    opacity: 1;
+    pointer-events: auto;
+}
+
+.alert.show {
+    animation: show_slide 1s ease forwards;
+}
+
+@keyframes show_slide {
+    0% {
+        transform: translateX(100%);
+    }
+    40% {
+        transform: translateX(-10%);
+    }
+    80% {
+        transform: translateX(0%);
+    }
+    100% {
+        transform: translateX(-10px);
+    }
+}
+
+.alert.hide {
+    animation: hide_slide 1s ease forwards;
+}
+
+@keyframes hide_slide {
+    0% {
+        transform: translateX(-10px);
+    }
+    40% {
+        transform: translateX(0%);
+    }
+    80% {
+        transform: translateX(-10%);
+    }
+    100% {
+        transform: translateX(100%);
+    }
+}
+
+/* Neutral Alert */
+.neutral {
+    background: #fff; /* Background color for neutral messages */
+    border: 1px solid #ccc; /* Border color for neutral messages */
+    color: #333; /* Text color for neutral messages */
+}
+
+.neutral .close-btn {
+    background: #ccc; /* Background color for close button in neutral messages */
+}
+
+.neutral .close-btn:hover {
+    background: #999; /* Hover background color for close button in neutral messages */
+}
+
+.neutral .close-btn .fas {
+    color: #000; /* Black color for close button icon in neutral messages */
+}

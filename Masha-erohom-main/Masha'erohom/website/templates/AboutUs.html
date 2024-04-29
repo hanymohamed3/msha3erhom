@@ -1,0 +1,367 @@
+{% extends "base.html" %}
+{% block title %}تعرَف علينا{% endblock %}
+{% block content %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+    <style>
+      
+
+      .container-fluid{
+        padding: 0;
+        margin: 0;
+      }
+        body::before {
+            content: "";
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-image: url('/static/ArabicBack.jpg'); /* Replace 'background.jpg' with your image */
+            background-size: cover;
+            background-position: center;
+            background-attachment: fixed;
+            z-index: 0;
+          }
+        
+        .aboutUsContainer {
+            position: relative;
+            width: 100%;
+            height: 100%;
+            overflow-x: hidden;
+            overflow-y: auto;
+          }
+          
+          .content {
+            position: relative;
+            z-index: 1;
+            padding: 0px;
+          }
+          #intro{
+            display: flex;
+            justify-content: space-between;
+            background-image:  url('/static/introBack2.jpg'); 
+            background-size: cover;
+            background-repeat: no-repeat;
+            background-attachment: fixed;
+            background-position: center;
+            height: 80vh;
+            padding : 4vw;
+          }
+          #logo{
+            height: 30vh;
+            width: auto;
+            clip: auto;
+            max-width: 120%;
+            align-self: center;
+            margin-right: 1vw;
+          }
+          #fuck{
+            height: 500px;
+          }
+          #technicalIntro{
+            margin-top: 10vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+          }
+          .evals{
+            display: flex;
+            flex-direction: row;
+            justify-content: space-between;
+            padding:3em;
+          }
+          .eval{
+            width: 30%;
+            height: 200px;
+            background-color: #000b2ec2;
+            color:white;
+            box-sizing: border-box;
+            border-radius: 250px;
+            text-align: center;
+            align-items: center;
+            font-size: larger;
+
+          }
+
+          #ourIntro{
+            align-self: center;
+            text-align: center;
+            color: white;
+            font-size:2em;
+            font-weight: 800;
+            margin-left: 1vw;
+          }
+          #members{
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-between;
+            margin-left: 5%;
+            margin-right: 5%;
+
+          }
+          .team-member-cont {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            border-radius: 5px;
+            box-shadow:0 7px 12px rgb(0 0 0 / 55%);
+            margin: 10px; /* Adjust margins as desired */
+            width : 40%;
+
+          }
+          .team-member-cont1 {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            border-radius: 5px;
+            box-shadow:0 7px 12px rgb(0 0 0 / 55%);
+            margin: 15vh 10px 10px 10px; /* Adjust margins as desired */
+            width : 50%;
+
+          }
+          .at1{ margin-top: 12vh;}
+          .at2{ margin-bottom: 12vh;}
+          .at3{ margin-top: 12vh;}
+          .at4{ margin-bottom: 12vh;}
+          .at5{ margin-top: 12vh;}
+          .at6{ margin-bottom: 12vh;}
+          .member-photo {
+            width: 200px;
+            height: 200px;
+            border-radius: 50%;
+            margin-bottom: 10px; /* Adjust spacing as desired */
+          }
+          
+          .member-info {
+            text-align: center;
+            padding: 10px;
+          }
+          
+          .member-name {
+            font-size: 18px;
+            font-weight: bold;
+            margin-bottom: 5px; /* Adjust spacing as desired */
+          }
+          
+          .job-title {
+            font-size: 16px;
+            margin-bottom: 5px; /* Adjust spacing as desired */
+          }
+          
+          .member-description {
+            font-size: 14px;
+            line-height: 1.5; /* Adjust line-height for better readability */
+            margin-bottom: 10px; /* Adjust spacing as desired */
+          }
+          
+          .member-links {
+            display: flex;
+            justify-content: center;
+            margin-top: 10px; /* Adjust spacing as desired */
+          }
+          
+          .member-link {
+            margin-right: 10px; /* Adjust spacing as desired */
+            text-decoration: none;
+            color: #333;
+            transition: all 0.2s ease-in-out;
+          }
+          
+          .member-link:hover {
+            color: #007bff;
+          }
+          
+          .member-link i {
+            font-size: 20px;
+          }
+
+
+          @media only screen and (max-width: 600px) {
+            body{
+                background-image: url('/static/ArabicBack-Phone.jpg'); 
+            }
+            #intro{
+              flex-direction: column;
+            }
+            #vl{
+              display: none;
+            }
+            #logo{
+              margin-top: 2vh;
+            }
+            #ourIntro{
+              font-size:1.6em;
+              font-weight: 600;
+              margin-bottom: 2vh;
+            }
+            .evals{
+              flex-direction: column;
+            }
+            .eval{
+              width: 100%;
+              margin-bottom: 3vh;
+            }
+            .team-member-cont{
+              width: 100%;
+            }
+            .at1, .at2, .at3, .at4, .at5, .at6{
+              margin-top: 0px;
+              margin-bottom: 2vh;
+            }
+        }
+        
+    </style>
+    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+    <script>
+      AOS.init();
+    </script>
+    
+</head>
+<body style="background-image: url('/static/ArabicBack.jpg'); background-size: cover; background-repeat: no-repeat; background-position: center;">
+    <div class = "aboutUsContainer">
+        <div class = "content">
+    <div id = "intro" >
+    <img src="{{ url_for('static', filename='logo-white.png') }}" id = "logo">
+    <div id ="vl" style="height: 100%; width:0.5vw; background-color:black;"></div>
+    <p id ="ourIntro">هدفنا هو تطوير نظام كامل لتحليل مشاعر النص العربي, فعَّال و دقيق في استخراج
+       الأراء و استنتاج الرأي العام لشعوب الوطن العربي بمختلف لهجاتهم على منصات التواصل و منصات الشراء المختلفة  </p>
+    </div>
+    <div id = "technicalIntro" >
+        <h1 style="text-align: center;">نتائج تقييم نماذج التعلم العميق الخاصة بنا</h1>
+        <div class="evals">
+            <div class="eval" data-aos="fade-right"><br>Emotone Ar <br><br> Accuracy : 90% <br> F1 : 90% </div>
+            <div class="eval" data-aos="fade-up"><br>semEval 2018 <br><br> Accuracy : 93% <br> F1 : 92% </div>
+            <div class="eval" data-aos="fade-left"><br>Our Scraped data <br> <br>Accuracy : 89% <br> F1 : 91% </div>
+        </div>
+    </div>
+    <h1 style="text-align: center; margin-top:5vh; margin-bottom:5vh;">فريقنا</h1>
+    <div id = "members" >
+      
+      <div class="team-member-cont at1" data-aos="fade-down-right">
+        <img src="{{ url_for('static', filename='team/ana.jpg') }}"  alt="Member Photo" class="member-photo">
+        <div class="member-info">
+          <h3 class="member-name">محمد علي</h3>
+          <p class="job-title">Data Scientist & NLP Enthusiast</p>
+          <p class="member-description">
+            Led the development of the Random Forest ensemble model, driving our project to surpass the current state-of-the-art in Arabic Sentiment Analysis, contributed to the website with design enhancements
+          </p>
+          <div class="member-links">
+            <a href="mailto:member@email.com" class="member-link email">
+              <i class="fa fa-envelope" aria-hidden="true"></i> Email
+            </a>
+            <a href="https://www.linkedin.com/in/member-profile/" target="_blank" class="member-link linkedin">
+              <i class="fa fa-linkedin-square" aria-hidden="true"></i> LinkedIn
+            </a>
+          </div>
+        </div>
+      </div>
+      <div class="team-member-cont at2" data-aos="fade-down-left">
+        <img src="{{ url_for('static', filename='team/ali.png') }}" alt="Member Photo" class="member-photo">
+        <div class="member-info">
+          <h3 class="member-name">علي عبدالله</h3>
+          <p class="job-title">Data Scientist & NLP Enthusiast</p>
+          <p class="member-description">
+            Our dedicated Team leader, managed the workflow and assigned tasks, devoted significant effort in fine-tuning MARBERT Model, Ali was a crucial contributor in choosing the data and the right models, Worked on numerous Design enhancements on the website.
+          <div class="member-links">
+            <a href="mailto:member@email.com" class="member-link email">
+              <i class="fa fa-envelope" aria-hidden="true"></i> Email
+            </a>
+            <a href="https://www.linkedin.com/in/member-profile/" target="_blank" class="member-link linkedin">
+              <i class="fa fa-linkedin-square" aria-hidden="true"></i> LinkedIn
+            </a>
+          </div>
+        </div>
+      </div>
+      <div class="team-member-cont at3" data-aos="fade-right">
+        <img src="{{ url_for('static', filename='team/alim.jpg') }}" alt="Member Photo" class="member-photo">
+        <div class="member-info">
+          <h3 class="member-name">علي ماهر</h3>
+          <p class="job-title">AI Engineer & Android Developer</p>
+          <p class="member-description">
+            Built Bi-LSTM & Bi-GRU Models, his effort and commitment was evident with experimenting different model parameters and training the model multiple times.
+          </p>
+          <div class="member-links">
+            <a href="mailto:member@email.com" class="member-link email">
+              <i class="fa fa-envelope" aria-hidden="true"></i> Email
+            </a>
+            <a href="https://www.linkedin.com/in/member-profile/" target="_blank" class="member-link linkedin">
+              <i class="fa fa-linkedin-square" aria-hidden="true"></i> LinkedIn
+            </a>
+          </div>
+        </div>
+      </div>
+      <div class="team-member-cont at4" data-aos="fade-left">
+        <img src="{{ url_for('static', filename='team/karima.png') }}" alt="Member Photo" class="member-photo">
+        <div class="member-info">
+          <h3 class="member-name">كريمة صبحي</h3>
+          <p class="job-title">Data Analyst & Deep Learning Enthusiast</p>
+          <p class="member-description">
+            Contributed in All the project phases, was responsible with Ali Maher for Building the Bi-LSTM and Bi-GRU, and had great decisions in the preprocessing phase, with lots of contributions.
+          </p>
+          <div class="member-links">
+            <a href="mailto:member@email.com" class="member-link email">
+              <i class="fa fa-envelope" aria-hidden="true"></i> Email
+            </a>
+            <a href="https://www.linkedin.com/in/member-profile/" target="_blank" class="member-link linkedin">
+              <i class="fa fa-linkedin-square" aria-hidden="true"></i> LinkedIn
+            </a>
+          </div>
+        </div>
+      </div>
+      <div class="team-member-cont at5" data-aos="fade-up-right">
+        <img src="{{ url_for('static', filename='team/abdo.jpg') }}" alt="Member Photo" class="member-photo">
+        <div class="member-info">
+          <h3 class="member-name">عبدالرحمن عبدالحليم</h3>
+          <p class="job-title">Java & Flask Backend Engineer</p>
+          <p class="member-description">
+            Skillfully developed the entire Flask application and seamlessly integrated our models, delivering a fully functional application that met all the requirements.
+          </p>
+          <div class="member-links">
+            <a href="mailto:member@email.com" class="member-link email">
+              <i class="fa fa-envelope" aria-hidden="true"></i> Email
+            </a>
+            <a href="https://www.linkedin.com/in/member-profile/" target="_blank" class="member-link linkedin">
+              <i class="fa fa-linkedin-square" aria-hidden="true"></i> LinkedIn
+            </a>
+          </div>
+        </div>
+      </div>
+      <div class="team-member-cont at6" data-aos="fade-up-left">
+        <img src="{{ url_for('static', filename='team/hany.jpg') }}" alt="Member Photo" class="member-photo">
+        <div class="member-info">
+          <h3 class="member-name">هاني محمد</h3>
+          <p class="job-title">SW Testing Engineer</p>
+          <p class="member-description">
+            Contributed with Ali Abdallah in MARBERT Fine-tuning and helped in Documentations and researching various related works. 
+          </p>
+          <div class="member-links">
+            <a href="mailto:member@email.com" class="member-link email">
+              <i class="fa fa-envelope" aria-hidden="true"></i> Email
+            </a>
+            <a href="https://www.linkedin.com/in/member-profile/" target="_blank" class="member-link linkedin">
+              <i class="fa fa-linkedin-square" aria-hidden="true"></i> LinkedIn
+            </a>
+          </div>
+        </div>
+      </div>
+    </div>
+
+</div>
+<footer>
+  <div class="containerr" style="margin-top: 13vh; text-align:center; margin-bottom:4vh;">
+      <p>&copy; 2024 Masha'erohom. All Rights Reserved.</p>
+      <!-- Additional information can be added here -->
+  </div>
+</footer>
+</div>
+</body>
+
+
+
+</html>
+{% endblock %}

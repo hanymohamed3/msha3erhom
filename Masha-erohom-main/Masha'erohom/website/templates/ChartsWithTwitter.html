@@ -1,0 +1,447 @@
+{% extends "base.html" %}
+{% block title %}نتائج تويتر{% endblock %}
+{% block content %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Twitter Analysis</title>
+    <!-- Include Chart.js library -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <style>
+        
+     
+        .twittercontainer {
+            width: fit-content;
+            height: 600px; /* Adjust height as needed */
+            overflow: auto; /* Enable scrolling */
+            border: 1px solid #ccc; /* Add border for demonstration */
+            padding: 10px; /* Add padding for demonstration */
+            flex : 1;
+            margin-left: 45px;
+            text-align: center;
+        }
+        /* CSS styles for the boxes */
+        .box {
+            width: auto;
+            min-height: 100px;
+            height:fit-content;
+            max-height:100px;
+            background-color: #f0f0f0ab;
+            margin-bottom: 10px;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            padding: 10px 15px;
+            text-align: center;
+            display: flex;
+            justify-content: space-between;
+            align-items: baseline;
+            overflow: hidden;
+            transition: background-color 0.3s ease, max-height 0.5s ease; 
+            box-sizing: border-box;
+            cursor: pointer;
+            text-decoration: none;
+                
+        }
+        .box:hover {
+            background-color: #00ffff80; /* Change background color on hover */
+            color:black;
+            max-height:250px;
+            text-decoration : none;
+          }
+          .box:hover .tweet {
+            -webkit-line-clamp: unset;
+          }
+
+        .tweetLink{
+            color:black;
+            text-decoration: none;
+            
+        }
+        .tweetLink:hover{
+            color:black;
+            text-decoration: none;
+        }
+        
+        .tweet{
+            margin: 0px 12px 10px 3px;
+            text-align:center;
+            display: -webkit-box;
+            -webkit-line-clamp: 3;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
+            direction: rtl;
+            transition: -webkit-line-clamp 0.3s ease; 
+        }
+        
+        /* Customize scrollbar */
+        .twittercontainer::-webkit-scrollbar {
+            width: 10px; /* Width of the scrollbar */
+        }
+
+        .twittercontainer::-webkit-scrollbar-track {
+            background: #f1f1f1; /* Background color of the scrollbar track */
+        }
+
+        .twittercontainer::-webkit-scrollbar-thumb {
+            background: #888; /* Color of the scrollbar thumb */
+            border-radius: 5px; /* Border radius of the scrollbar thumb */
+        }
+
+        .twittercontainer::-webkit-scrollbar-thumb:hover {
+            background: #555; /* Color of the scrollbar thumb on hover */
+        }
+
+        table {
+            border-collapse: collapse;
+            width: 70%; /* Adjusted width of the table container */
+            margin-bottom:10px;
+        }
+        th, td {
+            padding: 11px;
+            text-align: left;
+            border-bottom: 1px solid #ddd;
+        }
+        th {
+            background-color: #f2f2f2;
+        }
+        tr:hover {
+            background-color: #f5f5f5;
+        }
+        /* Adjusted width of the pie chart container */
+        #pieChartContainer {
+            width: 20%;
+            position: relative;
+            display:flex;
+        }
+        /* Adjusted width and height of the pie chart canvas */
+        #pieChart {
+            width: 300px;
+            height: 300px;
+            
+        }
+        /* Style for the button */
+        .button {
+            position: relative;
+            bottom: 10px;
+            left: 50%;
+            transform: translateX(-50%);
+            background-color: #4CAF50;
+            
+            border: none;
+            color: white;
+            padding: 10px 20px;
+            text-align: center;
+            text-decoration: none;
+            display: inline-block;
+            font-size: 16px;
+            margin: 8px 8px 8px 8px;
+            cursor: pointer;
+            border-radius: 5px;
+        }
+        /* Hover effect for the button */
+        .button:hover {
+            background-color: #45a049;
+        }
+
+        #tableContainer{
+            width: 20%;
+        }
+        .tweetEmotion{
+            white-space : pre-line;
+        }
+        #tweetsNum{
+            white-space : pre-wrap;
+            margin: 17px;
+        }
+        .container-fluid{
+            padding-top: 1.35%;
+            padding-left: 15%;
+            padding-right: 15%;
+        }
+        @media only screen and (max-width: 600px) {
+            .container-fluid{
+                padding-left: 4%;
+                padding-right: 4%;
+            }
+            
+            .twittercontainer {
+                width:100%; 
+                margin-left:0px;
+                //height: 150px;
+                max-height:60vh; !important
+                overflow-y:auto;
+                margin-bottom:14px;
+            }
+            #pieChartContainer {
+                width: 100%;
+                position: relative;
+                display:none;
+            }
+            #everyThing{
+                flex-direction:column;
+                align-items:center;
+            }
+            table {
+                border-collapse: collapse;
+                width: 100%; /* Adjusted width of the table container */
+                margin-bottom:10px;
+            }
+            #tableContainer{
+                width: fit-content;
+            }
+            body{
+                background-attachment: fixed;
+            }
+            #barChart{
+                width: 100%;
+            }
+            
+            
+        }
+    </style>
+</head>
+<body>
+    <!-- Create a container for the charts and table -->
+    
+    <div id="everyThing" style="display: flex;">
+        <!-- Create a canvas element to render the bar chart -->
+        <div  "width: 50%;">
+        <div id ="barChartContainer" style="width: fit-content;">
+            <canvas id="barChart" width="400" height="300"></canvas>
+        </div>
+        <!-- Create a canvas element to render the pie chart -->
+        <div id="pieChartContainer" style="width: fit-content;"> <!-- Adjusted width of the pie chart container -->
+            <canvas id="pieChart" width="300" height="300"></canvas> <!-- Adjusted width and height of the pie chart canvas -->
+            <!-- Button to redirect to home page -->
+            
+        </div>
+    </div>
+        <!-- Create a table to display category counts -->
+        <div id="tableContainer" style ="width: fit-content;">
+            <table style="width: fit-content; height:fit-content;" dir = "rtl">
+                <thead>
+                    <tr>
+                        <th>  الشعور  </th>
+                        <th>  العدد  </th>
+                        <th>  النسبة  </th>
+
+                    </tr>
+                </thead>
+                <tbody id="categoryTable">
+                    <!-- Table rows will be dynamically generated -->
+                </tbody>
+            </table>
+            <a href="{{ url_for('views.download', filename=filename) }}" class="button" style= "margin-top: 10px">Download File</a>
+            
+        </div>
+        
+        
+        <div class="twittercontainer" >
+            <h2>التغريدات المسترجعة</h2>
+            <h3 id = "tweetsNum" dir = "rtl"></h3>
+
+            <template id="box-template">
+                <a class = "tweetLink" target = "_blank">
+                <div class="box"><p class="tweet"></p><span class="tweetEmotion"></span></div>
+                </a>
+            </template>
+        </div>
+        
+    </div>
+    
+
+
+    <script>
+        var categories = JSON.parse('{{ categories | safe }}');
+        var counts = JSON.parse('{{ counts | safe }}');
+
+        const tweetData = {{ tweet | safe }};
+        const keywordData = {{ emotion | safe }};
+        const urls = {{tweetsLink | safe}}
+        const container = document.querySelector('.twittercontainer');
+        const template = document.getElementById('box-template');
+        
+        const emotionColors = {
+            'joy': '😃',
+            'love': '🥰',
+            'none': '😐',
+            'fear':'😥',
+            'surprise': '😳',
+            'sympathy' : '🙏🏻',
+            'anger':'😡',
+            'sadness':'☹️'
+            // Add more keywords and colors as needed
+        };
+        const translations ={
+            'joy': 'سعادة',
+            'love': 'حب',
+            'none': 'لا شعور',
+            'fear':'خوف',
+            'surprise': 'اندهاش',
+            'sympathy' : 'تعاطف',
+            'anger':'غضب',
+            'sadness':'حزن'
+        }
+
+        categories = categories.map(category => translations[category]);
+
+        tweetData.forEach((tweet, index) => {
+            const clone = document.importNode(template.content, true);
+            const box = clone.querySelector('.box');
+            const tweetElement = clone.querySelector('.tweet');
+            const keywordElement = clone.querySelector('.tweetEmotion');
+            const tweetLink = clone.querySelector('.tweetLink')
+            tweetElement.textContent = tweet ;
+            keywordElement.textContent = translations[keywordData[index]] + "\n"+ emotionColors[keywordData[index]];
+            tweetLink.href = urls[index]
+
+            container.appendChild(clone);
+            });
+
+            const headingElement = document.getElementById('tweetsNum');
+            headingElement.textContent = tweetData.length +"  تغريدة   " ;
+        // Define custom colors for the charts
+        var colors = [
+            'rgba(255, 206, 86, 0.5)',   
+            'rgba(255, 0, 0, 0.5)',    
+            'rgba(54, 162, 235, 0.5)',    
+            'rgba(255, 192, 203, 0.5)',    
+            'rgba(153, 102, 255, 0.5)',   
+            'rgba(255, 159, 64, 0.5)',   
+            'rgba(0, 0, 0, 0.5)',  
+            'rgba( 150, 150, 150, 0.5)'     
+        ];
+
+        // Define data for the bar chart
+        var barChartData = {
+            labels: categories,
+            datasets: [{
+                data: counts,
+                backgroundColor: colors.slice(0, categories.length), // Use colors for available categories
+                borderColor: colors.slice(0, categories.length).map(color => color.replace('0.5', '1')), // Set border color for bars
+                borderWidth: 1
+            }]
+        };
+
+        // Define data for the pie chart
+        var pieChartData = {
+            labels: categories,
+            datasets: [{
+                data: counts,
+                backgroundColor: colors.slice(0, categories.length), // Use colors for available categories
+                borderColor: 'rgba(255, 255, 255, 1)', // Set border color for pie chart
+                borderWidth: 1
+            }]
+        };
+
+        // Configure options for both charts
+        var options = {
+            scales: {
+                y: {
+                    ticks: {
+                        beginAtZero: true,
+                        display: true // hide the numbers on y-axis
+                    }
+                },
+                x: {
+                    ticks: {
+                        beginAtZero: true,
+                        display: true, // hide the numbers on y-axis
+                        font:{
+                        size:18
+                        }
+                    }
+                }
+            },
+
+            plugins: {
+            title: {
+                display: true,
+                text: 'توزيع المشاعر', // Set the title text here
+                font:{
+                    size : 20
+                } // Set the font size for the title
+            },
+            legend: {
+                display: false // Hide legend if not needed
+            }
+        }
+        };
+
+        // Configure options for the pie chart with percentage scale
+        var pieChartOptions = {
+            title: {
+                display: true,
+                text: 'Emotion Distribution'
+                
+            },
+            tooltips: {
+                callbacks: {
+                    label: function(tooltipItem, data) {
+                        var dataset = data.datasets[tooltipItem.datasetIndex];
+                        var total = dataset.data.reduce(function(previousValue, currentValue, currentIndex, array) {
+                            return previousValue + currentValue;
+                        });
+                        var currentValue = dataset.data[tooltipItem.index];
+                        var percentage = Math.round((currentValue / total) * 100);
+                        return categories[tooltipItem.index] + ': ' + currentValue + ' (' + percentage + '%)';
+                    }
+                }
+            },
+            plugins: {
+                legend: {
+                    labels: {
+                        font: {
+                            size: 14, // Set the font size for legend labels
+                            family: 'Arial', // Set the font family for legend labels
+                            weight: 'bold' // Set the font weight for legend labels
+                        }
+                    }
+                }
+            }
+
+        };
+
+        // Get the canvas elements for both charts
+        var barCtx = document.getElementById('barChart').getContext('2d');
+        var pieCtx = document.getElementById('pieChart').getContext('2d');
+
+        // Create a new bar chart instance
+        var barChart = new Chart(barCtx, {
+            type: 'bar',
+            data: barChartData,
+            options: options
+        });
+
+        // Create a new pie chart instance with percentage scale
+        var pieChart = new Chart(pieCtx, {
+            type: 'pie',
+            data: pieChartData,
+            options: pieChartOptions
+        });
+        // Populate the table with category counts
+        var categoryTable = document.getElementById('categoryTable');
+        for (var i = 0; i < categories.length; i++) {
+            var row = document.createElement('tr');
+            var categoryCell = document.createElement('td');
+            var countCell = document.createElement('td');
+            var percentageCell = document.createElement('td');
+            var percentage = Math.round((counts[i] / counts.reduce((a, b) => a + b, 0)) * 100); // Calculate percentage
+            categoryCell.textContent = categories[i];
+            countCell.textContent = counts[i];
+            percentageCell.textContent = percentage + '%';
+            row.appendChild(categoryCell);
+            row.appendChild(countCell);
+            row.appendChild(percentageCell);
+            categoryTable.appendChild(row);
+        }
+
+        
+
+        
+    </script>
+</body>
+</html>
+{% endblock %}

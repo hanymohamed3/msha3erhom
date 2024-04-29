@@ -1,0 +1,218 @@
+{% extends "base.html" %}
+{% block title %}Home{% endblock %}
+{% block content %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bar and Pie Chart Example</title>
+    <!-- Include Chart.js library -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Cairo:wght@200..1000&display=swap');
+        *{
+            font-family:'Cairo',sans-serif;
+            font-weight:600;
+        }
+        table {
+            border-collapse: collapse;
+            width: 70%; /* Adjusted width of the table container */
+        }
+        th, td {
+            padding: 8px;
+            text-align: left;
+            border-bottom: 1px solid #ddd;
+        }
+        .container-fluid{
+            padding-top: 1.35%;
+            padding-left: 15%;
+            padding-right: 15%;
+        }
+        th {
+            background-color: #f2f2f2;
+        }
+        tr:hover {
+            background-color: #f5f5f5;
+        }
+        /* Adjusted width of the pie chart container */
+        #pieChartContainer {
+            width: 20%;
+            position: relative;
+        }
+        /* Adjusted width and height of the pie chart canvas */
+        #pieChart {
+            width: 300px;
+            height: 300px;
+        }
+        /* Style for the button */
+        .button {
+            position: absolute;
+            bottom: 10px;
+            left: 50%;
+            transform: translateX(-50%);
+            background-color: #4CAF50;
+            border: none;
+            color: white;
+            padding: 10px 20px;
+            text-align: center;
+            text-decoration: none;
+            display: inline-block;
+            font-size: 16px;
+            margin: 4px 2px;
+            cursor: pointer;
+            border-radius: 5px;
+        }
+        /* Hover effect for the button */
+        .button:hover {
+            background-color: #45a049;
+        }
+    </style>
+</head>
+<body>
+    <!-- Create a container for the charts and table -->
+    <div style="display: flex;">
+        <!-- Create a canvas element to render the bar chart -->
+        <div style="width: 50%;">
+            <canvas id="barChart" width="400" height="300"></canvas>
+        </div>
+        <!-- Create a canvas element to render the pie chart -->
+        <div id="pieChartContainer" style="width: 25%;"> <!-- Adjusted width of the pie chart container -->
+            <canvas id="pieChart" width="300" height="300"></canvas> <!-- Adjusted width and height of the pie chart canvas -->
+            <!-- Button to redirect to home page -->
+            <a href="{{ url_for('views.download', filename=filename) }}" class="button">Download File</a>
+        </div>
+        <!-- Create a table to display category counts -->
+        <div style="width: 20%;">
+            <table>
+                <thead>
+                    <tr>
+                        <th>Category</th>
+                        <th>Counts</th>
+                        <th>Percentage </th>
+
+                    </tr>
+                </thead>
+                <tbody id="categoryTable">
+                    <!-- Table rows will be dynamically generated -->
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <!-- JavaScript Section -->
+    <script>
+        // Get data from Flask view
+        var categories = JSON.parse('{{ categories | safe }}');
+        var counts = JSON.parse('{{ counts | safe }}');
+
+        // Define custom colors for the charts
+        var colors = [
+            'rgba(255, 99, 132, 0.5)',   // Red
+            'rgba(54, 162, 235, 0.5)',    // Blue
+            'rgba(255, 206, 86, 0.5)',    // Yellow
+            'rgba(75, 192, 192, 0.5)',    // Green
+            'rgba(153, 102, 255, 0.5)',   // Purple
+            'rgba(255, 159, 64, 0.5)',    // Orange
+            'rgba(255, 0, 0, 0.5)',       // Additional color 1
+            'rgba(0, 255, 0, 0.5)'        // Additional color 2
+        ];
+
+        // Define data for the bar chart
+        var barChartData = {
+            labels: categories,
+            datasets: [{
+                label: 'Emotion Counts',
+                data: counts,
+                backgroundColor: colors.slice(0, categories.length), // Use colors for available categories
+                borderColor: colors.slice(0, categories.length).map(color => color.replace('0.5', '1')), // Set border color for bars
+                borderWidth: 1
+            }]
+        };
+
+        // Define data for the pie chart
+        var pieChartData = {
+            labels: categories,
+            datasets: [{
+                data: counts,
+                backgroundColor: colors.slice(0, categories.length), // Use colors for available categories
+                borderColor: 'rgba(255, 255, 255, 1)', // Set border color for pie chart
+                borderWidth: 1
+            }]
+        };
+
+        // Configure options for both charts
+        var options = {
+            scales: {
+                yAxes: [{
+                    ticks: {
+                        beginAtZero: true,
+                        display: false // hide the numbers on y-axis
+                    }
+                }]
+            },
+            title: {
+                display: true,
+                text: 'Emotion Distribution'
+            }
+        };
+
+        // Configure options for the pie chart with percentage scale
+        var pieChartOptions = {
+            title: {
+                display: true,
+                text: 'Emotion Distribution'
+            },
+            tooltips: {
+                callbacks: {
+                    label: function(tooltipItem, data) {
+                        var dataset = data.datasets[tooltipItem.datasetIndex];
+                        var total = dataset.data.reduce(function(previousValue, currentValue, currentIndex, array) {
+                            return previousValue + currentValue;
+                        });
+                        var currentValue = dataset.data[tooltipItem.index];
+                        var percentage = Math.round((currentValue / total) * 100);
+                        return categories[tooltipItem.index] + ': ' + currentValue + ' (' + percentage + '%)';
+                    }
+                }
+            }
+        };
+
+        // Get the canvas elements for both charts
+        var barCtx = document.getElementById('barChart').getContext('2d');
+        var pieCtx = document.getElementById('pieChart').getContext('2d');
+
+        // Create a new bar chart instance
+        var barChart = new Chart(barCtx, {
+            type: 'bar',
+            data: barChartData,
+            options: options
+        });
+
+        // Create a new pie chart instance with percentage scale
+        var pieChart = new Chart(pieCtx, {
+            type: 'pie',
+            data: pieChartData,
+            options: pieChartOptions
+        });
+
+        // Populate the table with category counts
+        var categoryTable = document.getElementById('categoryTable');
+        for (var i = 0; i < categories.length; i++) {
+            var row = document.createElement('tr');
+            var categoryCell = document.createElement('td');
+            var countCell = document.createElement('td');
+            var percentageCell = document.createElement('td');
+            var percentage = Math.round((counts[i] / counts.reduce((a, b) => a + b, 0)) * 100); // Calculate percentage
+            categoryCell.textContent = categories[i];
+            countCell.textContent = counts[i];
+            percentageCell.textContent = percentage + '%';
+            row.appendChild(categoryCell);
+            row.appendChild(countCell);
+            row.appendChild(percentageCell);
+            categoryTable.appendChild(row);
+        }
+    </script>
+</body>
+</html>
+{% endblock %}

@@ -1,0 +1,263 @@
+@import url('https://fonts.googleapis.com/css2?family=Mulish:wght@300;400;500;600;700;800&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Cairo:wght@200..1000&display=swap');
+*{
+    padding: 0;
+    margin: 0;
+    box-sizing: border-box;
+    font-family: 'Cairo', sans-serif;
+}
+
+body{
+    height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: url(ArabicBack.jpg);
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-attachment: fixed;
+    font-family: "Cairo", sans-serif;
+}
+
+.logo{
+    position: absolute;
+    top: 22px;
+    right: 22px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.logo img {
+    width: 200px; /* Set initial width to 100% */
+    max-width: 200px; /* Set maximum width to 200px */
+}
+@media screen and (max-width:600px) {
+    .container{
+        width: 340px;
+    }
+    body{
+        background: url(ArabicBack-Phone.jpg);
+        background-attachment: fixed;
+    }
+}
+/* Media query for screens smaller than 600px */
+
+/* @media (max-width: 800px) {
+    .logo img {
+        width: 120px; 
+        max-width: 120px;
+        align-items: center;
+        justify-content: center;
+    }
+}
+@media (max-width: 500px) {
+    .logo img {
+        display: none;
+    }
+} */
+/* .logo a{
+    font-size: 24px;
+    font-weight: bold;
+    text-decoration: none;
+    color: #464646;
+} */
+
+.container{
+    width: 440px;
+    padding: 40px 32px;
+    border-radius: 8px;
+    box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
+}
+
+.container h1{
+    font-size: 1.6rem;
+    text-align: right;
+}
+
+.container .social-login{
+    display: flex;
+    gap: 16px;
+    margin-top: 20px;
+}
+
+.container .social-login button{
+    padding: 8px;
+    width: 100%;
+    border-radius: 8px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    font-size: 1rem;
+    font-weight: 700;
+    color: #323760;
+    border: 1px solid #6667b0;
+    background: transparent;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.container .social-login button i{
+    font-size: 26px;
+}
+
+.container .social-login button:hover{
+    color: #6b43ff;
+    border-color: #6b43ff;
+}
+
+.container .divider{
+    display: flex;
+    align-items: center;
+    gap: 20px;
+}
+
+.container .divider .line{
+    height: 1px;
+    width: 100%;
+    background: #1d1d1d;
+    opacity: 0.2;
+    margin: 30px 0 16px;
+}
+
+.container form label{
+    color: #1d1d1d;
+    font-size: 14px;
+    font-weight: bold;
+    letter-spacing: 0.03rem;
+    display: block;
+    margin-top: 12px;
+    text-align: right;
+}
+
+.container form .custome-input{
+    position: relative;
+}
+
+.container form .custome-input input{
+    color: #1d1d1d;
+    font-size: 16px;
+    font-weight: 500;
+    width: 100%;
+    height: 46px;
+    letter-spacing: 0.03rem;
+    border: 1px solid #1d1d1d;
+    background: transparent;
+    outline: none;
+    border-radius: 8px;
+    text-indent: 20px;
+    margin-top: 6px;
+    transition: all 0.3s ease;
+}
+
+.container form .custome-input input:focus{
+    border-color: #5222fd;
+}
+
+.container form .custome-input i{
+    position: absolute;
+    font-size: 28px;
+    right: 10px;
+    top: 14px;
+    transition: all 0.3s ease;
+}
+
+.container form .custome-input input:focus + i{
+    color: #5222fd;
+}
+
+.container form .login{
+    width: 100%;
+    margin-top: 30px;
+    background: #6b43ff;
+    color: #fff;
+    border: none;
+    line-height: 50px;
+    font-size: 18px;
+    letter-spacing: 0.025em;
+    cursor: pointer;
+    font-weight: 800;
+    border-radius: 8px;
+    box-shadow: 0 5px 10px rgba(0, 0, 0, 0.15);
+    transition: all 0.3s ease;
+}
+
+.container form .login:hover{
+    background: #5222fd;
+}
+
+.container .links{
+    display: flex;
+    justify-content: space-between;
+    margin-top: 30px;
+}
+
+.container .links a{
+    color: #6b43ff;
+    font-weight: 600;
+    font-size: 1rem;
+    text-decoration: none;
+    text-underline-offset: 6px;
+    text-decoration-color: #6b43ff;
+}
+
+.container .links a:hover{
+    text-decoration: underline;
+}
+
+.container form {
+    display: flex;
+    flex-wrap: wrap;
+    flex-direction: column;
+  }
+  
+  .container label {
+    display: flex;
+    cursor: pointer;
+    font-weight: 500;
+    position: relative;
+    overflow: hidden;
+    margin-bottom: 0.375em;
+  }
+  
+  .container  label input {
+    position: absolute;
+    left: -9999px;
+  }
+  
+  .container label input:checked + span {
+    background-color: #414181;
+    color: white;
+  }
+  
+  .container label input:checked + span:before {
+    box-shadow: inset 0 0 0 0.4375em #00005c;
+  }
+  
+  .container label span {
+    display: flex;
+    align-items: center;
+    padding: 0.375em 0.75em 0.375em 0.375em;
+    border-radius: 99em;
+    transition: 0.25s ease;
+    color: #414181;
+  }
+  
+  .container label span:hover {
+    background-color: #d6d6e5;
+  }
+  
+  .container label span:before {
+    display: flex;
+    flex-shrink: 0;
+    content: "";
+    background-color: #fff;
+    width: 1.5em;
+    height: 1.5em;
+    border-radius: 50%;
+    margin-right: 0.375em;
+    transition: 0.25s ease;
+    box-shadow: inset 0 0 0 0.125em #00005c;
+  }
+  

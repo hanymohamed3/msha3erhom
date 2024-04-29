@@ -1,0 +1,74 @@
+{% extends "base2.html" %}
+{% block content %}
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
+    <link rel="stylesheet" href="static/login&register.css">
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='alert.css') }}">
+    <title>Sign-Up Page</title>
+</head>
+
+<body>
+
+    <div class="logo">
+        <img src="static/logo.png">
+        <!-- <a href="#">AsmrProg</a> -->
+    </div>
+
+    <div class="container">
+        <h1>انشئ حساب جديد</h1>
+        <!-- <div class="social-login">
+            <button class="google">
+                <i class='bx bxl-google'></i>
+                Use Google
+            </button>
+            <button class="google">
+                <i class='bx bxl-apple'></i>
+                Use Apple
+            </button>
+        </div> -->
+        <!-- <div class="divider">
+            <div class="line"></div>
+            <p>Or</p>
+            <div class="line"></div>
+        </div> -->
+
+        <br>
+        <br>
+
+        <form method="post" action="{{ url_for('auth.sign_up') }}">
+            <label for="email">البريد الالكتروني</label>
+            <div class="custome-input">
+                <input id="email" type="email" name="email" placeholder="بريدك الإلكتروني" autocomplete="off" value="{{ email }}">
+                <i class='bx bx-at'></i>
+            </div>
+            <label for="email">الإسم</label>
+            <div class="custome-input">
+            <input id="firstName" type="text" name="firstName" placeholder="إسمك" autocomplete="off" value="{{ firstName }}">
+                <i class='bx bx-user'></i>
+            </div>
+            <label for="password">كلمة السر</label>
+            <div class="custome-input">
+            <input id="password1" type="password" name="password1" placeholder="كلمة السر (8 حروف حد ادنى)">
+                <i class='bx bx-lock-alt'></i>
+            </div>
+            <label for="password">تأكيد كلمة السر</label>
+            <div class="custome-input">
+                <input id="password2" type="password" name="password2" placeholder="تأكيد كلمة السر">
+                <i class='bx bx-lock-alt'></i>
+            </div>
+            <button class="login" type="submit">تسجيل</button>
+            <div class="links">
+                <a href="/login">لديك حساب بالفعل؟</a>
+            </div>
+        </form>
+
+    </div>
+</body>
+
+</html>
+{% endblock %}

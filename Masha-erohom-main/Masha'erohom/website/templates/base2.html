@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='alert.css') }}">
+
+    <!-- Bootstrap  CSS -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous" />
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" crossorigin="anonymous" />
+    
+    <!--box icons-->
+    <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
+    <script src="https://unpkg.com/typed.js@2.0.16/dist/typed.umd.js"></script>
+
+    <!--favicon -->
+    <link rel="shortcut icon" href="{{ url_for('static', filename='favicon.ico') }}">
+</head>
+<body>
+    <header class="header">
+        
+        <!-- <a href="/" class="logo"><img src="static/logo2.png" style="width:170px"/><span class="animate" style="--i:1;"></span></a> -->
+    </header>
+
+    {% with messages = get_flashed_messages(with_categories=true) %} {% if messages %} {% for category, message in messages %}
+    <div class="alert {% if category == 'error' %}error{% elif category == 'success' %}success{% endif %} hide">
+        <span class="fas fa-exclamation-circle"></span>
+        <span class="msg">{{ message }}</span>
+    </div>
+    {% endfor %} {% endif %} {% endwith %}
+    <div class="container">{% block content %} {% endblock %}</div>
+
+    <!-- Script to get active navbar -->
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+        const navbarLinks = document.querySelectorAll('.navbar a');
+
+        // Function to set active class based on current URL
+        function setActiveLink() {
+            navbarLinks.forEach(function(navbarLink) {
+            if (navbarLink.getAttribute('href') === window.location.pathname) {
+                navbarLink.classList.add('active');
+            } else {
+                navbarLink.classList.remove('active');
+            }
+            });
+        }
+
+        // Initially set active link
+        setActiveLink();
+
+        // Add click event listener to each navbar link
+        navbarLinks.forEach(function(navbarLink) {
+            navbarLink.addEventListener('click', function(event) {
+            // Remove 'active' class from all navbar links
+            navbarLinks.forEach(function(link) {
+                link.classList.remove('active');
+            });
+
+            // Add 'active' class to the clicked navbar link
+            navbarLink.classList.add('active');
+            });
+        });
+        });
+    </script>
+
+    <script src="https://code.jquery.com/jquery-3.4.1.js"></script>
+    <!-- icons of the navbar from ionicons -->
+    <script type="module" src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.esm.js"></script>
+    <script nomodule src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.js"></script>
+
+    <script>
+        $(document).ready(function() {
+            $('.alert').each(function() {
+                $(this).addClass('show');
+                $(this).removeClass('hide');
+                $(this).addClass('showAlert');
+                setTimeout(() => {
+                    $(this).removeClass('show');
+                    $(this).addClass('hide');
+                }, 5000);
+            });
+
+            $('.close-btn').click(function() {
+                $(this).parent().removeClass('show');
+                $(this).parent().addClass('hide');
+            });
+        });
+    </script>
+</body>
+</html>

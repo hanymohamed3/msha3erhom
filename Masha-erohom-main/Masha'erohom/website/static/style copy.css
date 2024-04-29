@@ -1,0 +1,14 @@
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700&display=swap');
+
+
+#navigationBar {
+    /* background-image: url(ArabicBack.jpg); */
+    
+    background-color: aqua;
+    display: flex;
+    align-items: top;
+    justify-content: center;
+    flex-direction: column;
+    height: 10%;
+    width: 100%;
+}

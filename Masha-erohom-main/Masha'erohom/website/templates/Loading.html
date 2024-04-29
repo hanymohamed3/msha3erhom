@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="shortcut icon" href="{{ url_for('static', filename='favicon.ico') }}">
+    <title>جارٍ التحميل ....</title>
+    <!-- Add your CSS for the loading animation here if needed -->
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script>
+        // Function to start the task immediately
+        function startTaskImmediately() {
+            var keyword = "{{ keyword }}";  // Access the keyword passed from Flask
+            var matchType = "{{matchType}}"
+            var dataframeJson = '{{ dataframe|safe }}';
+            var fileName = "{{ filename }}"; 
+            if(keyword){
+                startTwitterTask(keyword,matchType);
+            }
+            else if(dataframeJson){
+                console.log(dataframeJson)
+                var df = JSON.parse(dataframeJson);  // Parse the DataFrame JSON
+                startFileTask(df,fileName);
+            }
+            else {
+                console.log("nothing passed")
+            }
+        }
+
+        // Call the function when the page loads
+        window.onload = startTaskImmediately;
+
+        // Define the startTask function to initiate the task
+        function startTwitterTask(keyword,matchType) {
+            fetch(`/start-twitter-task?keyword=${encodeURIComponent(keyword)}&matchtype=${encodeURIComponent(matchType)}`)
+            .then(response => response.json())
+            .then(data => {
+                // Handle the response as needed
+                console.log('Task completed:', data);
+                // Send the dataframe JSON to the server using a POST request
+                sendDataframeToServer(JSON.stringify(data.dataframe));
+            })
+            .catch(error => {
+                console.error('Error:', error);
+            });
+            function sendDataframeToServer(dataframe) {
+                fetch('/chart2', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({ dataframe: dataframe })
+                })
+                .then(response => {
+                    if (response.ok) {
+                        // Redirect to the /chart2 route
+                        window.location.href = '/chart2';
+                    } else {
+                        console.error('Failed to send dataframe to server');
+                    }
+                })
+                .catch(error => {
+                    console.error('Error:', error);
+                });
+            }
+        }
+        // Define the startTask function to initiate the task
+        function startFileTask(dataframeJson,fileName) {
+            fetch('/start-file-task', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({ dataframe: dataframeJson , file_name: fileName})
+            })
+            .then(response => {
+                if (response.ok) {
+                    return response.json(); // Extract the JSON from the response
+                } else {
+                    console.error('Failed to start file task.');
+                    throw new Error('Failed to start file task.');
+                }
+            })
+            .then(data => {
+                // Redirect to the chart route with the filename
+                window.location.href = `/chart/${data.filename}`;
+            })
+            .catch(error => {
+                console.error('Error:', error);
+            });
+        }
+        
+        </script>
+        <style>
+            #loading-div {
+                position: fixed;
+                top: 50%;
+                left: 50%;
+                transform: translate(-50%, -50%);
+                z-index: 9999; /* Ensure it's above other content */
+            }
+            #loading-gif {
+                width : 250px;
+                height : auto ; 
+
+            }
+            @media only screen and (max-width: 600px) {
+                body {
+                    background-image: url('/static/ArabicBack-Phone.jpg'); 
+                    background-size: cover; 
+                    background-repeat: no-repeat; 
+                    background-position: center;
+                    background-attachment: fixed;
+                    padding-bottom: 12px;
+                }
+            }
+        </style>
+        
+        
+</head>
+<body style="background-image: url('/static/ArabicBack.jpg'); background-size: cover; background-repeat: no-repeat;">
+    
+    <div id="loading-div">
+        <img id="loading-gif" src="{{ url_for('static', filename='loading_gif.gif') }}" alt="Loading..." />
+    </div>
+    
+</body>
+</html>
